@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  backend:
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    volumes:
+      - ./promanage-backend:/app
+    environment:
+      - ENVIRONMENT=development
+
+  frontend:
+    build:
+      context: ./promanage-frontend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./promanage-frontend:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
